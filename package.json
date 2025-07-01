@@ -2,7 +2,7 @@
   "name": "mcp-client",
   "scripts": {
     "standard": "bun run src/mcp/standard/interactive.ts bun run src/server",
-    "mailbox:server": "bun run src/mcp/mailbox/mailbox-server-runner.ts",
+    "mailbox:server": "bun run src/mcp/mailbox/mailbox-server-adapter.ts",
     "mailbox:client": "bun run src/mcp/mailbox/interactive-mailbox.ts"
   },
   "type": "module",

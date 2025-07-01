@@ -45,7 +45,7 @@ This repository demonstrates **how a Model Context Protocol (MCP) client communi
 6. **Shutdown**
    - The client can terminate the server process (or send a shutdown message, if supported).
 
-## Communication Sequence Diagram
+## Communication Sequence Diagram (Standard)
 
 ```mermaid
 sequenceDiagram
@@ -63,6 +63,23 @@ sequenceDiagram
     Server-->>Client: tool result
   end
   Client->>Server: (process exit or shutdown)
+```
+
+## Mailbox (File-based) Flow (with Adapter)
+
+The mailbox experiment now uses an **adapter** that bridges mailbox requests to the standard server via stdio. The adapter reads request files, forwards them to the standard server, and writes response files back.
+
+```mermaid
+sequenceDiagram
+  participant MailboxClient as Mailbox Client
+  participant MailboxAdapter as Mailbox Server Adapter
+  participant StdServer as Standard MCP Server
+
+  MailboxClient->>MailboxAdapter: Write request file (mailbox-requests/request-<id>.json)
+  MailboxAdapter->>StdServer: Send JSON-RPC request via stdio
+  StdServer-->>MailboxAdapter: JSON-RPC response via stdio
+  MailboxAdapter->>MailboxClient: Write response file (mailbox-responses/response-<id>.json)
+  Note over MailboxClient,MailboxAdapter: Files are created and deleted per request/response
 ```
 
 ## Example JSON-RPC Message
@@ -96,7 +113,7 @@ sequenceDiagram
 ## Project Structure
 
 - `src/mcp/standard/` — Standard (stdio-based) MCP client and interactive runner
-- `src/mcp/mailbox/` — Mailbox (file-based) MCP client, server, and interactive runner
+- `src/mcp/mailbox/` — Mailbox (file-based) MCP client, interactive runner, and **adapter** (bridges to standard server)
 - `src/server/` — Example MCP server implementation
 
 ## Try It Out
@@ -110,9 +127,9 @@ bun run standard
 
 ### Mailbox (file-based) experiment
 
-This repo also includes an **experimental mailbox-based flow** where the client and server communicate by writing/reading files in mailbox directories. This is useful for environments where stdio or sockets are not available, or for debugging IPC flows.
+This repo also includes an **experimental mailbox-based flow** where the client and server communicate by writing/reading files in mailbox directories. The mailbox server is now an adapter that bridges requests to the standard server via stdio.
 
-- Start the mailbox server:
+- Start the mailbox server adapter:
 
   ```bash
   bun run mailbox:server
@@ -126,4 +143,4 @@ This repo also includes an **experimental mailbox-based flow** where the client 
 
 ---
 
-**This repo is a reference for building and understanding MCP client-server communication over stdio using JSON-RPC, and also includes a mailbox-based experiment for file-based IPC.**
+**This repo is a reference for building and understanding MCP client-server communication over stdio using JSON-RPC, and also includes a mailbox-based experiment for file-based IPC using an adapter.**
