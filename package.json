@@ -1,8 +1,9 @@
 {
   "name": "mcp-client",
   "scripts": {
-    "start": "bun run src/simple.ts bun run src/server",
-    "interactive": "bun run src/interactive.ts bun run src/server"
+    "standard": "bun run src/mcp/standard/interactive.ts bun run src/server",
+    "mailbox:server": "bun run src/mcp/mailbox/mailbox-server-runner.ts",
+    "mailbox:client": "bun run src/mcp/mailbox/interactive-mailbox.ts"
   },
   "type": "module",
   "devDependencies": {

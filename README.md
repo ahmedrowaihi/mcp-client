@@ -95,17 +95,35 @@ sequenceDiagram
 
 ## Project Structure
 
-- `src/impl/mcp-client.ts` — Core MCP client implementation (handles JSON-RPC, stdio, request/response)
-- `src/interactive.ts` — Example interactive CLI runner (user interface)
+- `src/mcp/standard/` — Standard (stdio-based) MCP client and interactive runner
+- `src/mcp/mailbox/` — Mailbox (file-based) MCP client, server, and interactive runner
 - `src/server/` — Example MCP server implementation
 
 ## Try It Out
 
+### Standard (stdio-based) mode
+
 ```bash
 bun install
-bun run src/interactive.ts bun run src/server
+bun run standard
 ```
+
+### Mailbox (file-based) experiment
+
+This repo also includes an **experimental mailbox-based flow** where the client and server communicate by writing/reading files in mailbox directories. This is useful for environments where stdio or sockets are not available, or for debugging IPC flows.
+
+- Start the mailbox server:
+
+  ```bash
+  bun run mailbox:server
+  ```
+
+- In another terminal, start the mailbox client:
+
+  ```bash
+  bun run mailbox:client
+  ```
 
 ---
 
-**This repo is a reference for building and understanding MCP client-server communication over stdio using JSON-RPC.**
+**This repo is a reference for building and understanding MCP client-server communication over stdio using JSON-RPC, and also includes a mailbox-based experiment for file-based IPC.**

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { MCPClient } from "./impl/mcp-client";
+import { MCPClient } from "./client";
 import { createInterface } from "readline";
 
 async function prompt(question: string): Promise<string> {
