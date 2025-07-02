@@ -3,7 +3,9 @@
   "scripts": {
     "standard": "bun run src/mcp/standard/interactive.ts bun run src/server",
     "mailbox:server": "bun run src/mcp/mailbox/mailbox-server-adapter.ts",
-    "mailbox:client": "bun run src/mcp/mailbox/interactive-mailbox.ts"
+    "mailbox:client": "bun run src/mcp/mailbox/interactive-mailbox.ts",
+    "socket:server": "bun run src/mcp/socket/socket-server-adapter.ts",
+    "socket:client": "bun run src/mcp/socket/interactive-socket.ts"
   },
   "type": "module",
   "devDependencies": {

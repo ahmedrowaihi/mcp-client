@@ -1,12 +1,7 @@
 import { spawn } from "child_process";
 import { createInterface } from "readline";
 
-interface IMCPClient {
-  connect(): Promise<any>;
-  listTools(): Promise<any>;
-  callTool(name: string, args: any): Promise<any>;
-  close(): Promise<void>;
-}
+import type { IMCPClient } from "../interface";
 
 export class MCPClient implements IMCPClient {
   private command: string;

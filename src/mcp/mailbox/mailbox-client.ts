@@ -6,8 +6,9 @@ import {
   writeFileSync,
 } from "fs";
 import { join } from "path";
+import type { IMCPClient } from "../interface";
 
-export class MailboxMCPClient {
+export class MailboxMCPClient implements IMCPClient {
   private requestsDir: string;
   private responsesDir: string;
   private requestId: number;
@@ -21,6 +22,16 @@ export class MailboxMCPClient {
     this.requestId = 0;
     if (!existsSync(this.requestsDir)) mkdirSync(this.requestsDir);
     if (!existsSync(this.responsesDir)) mkdirSync(this.responsesDir);
+  }
+
+  async connect(): Promise<void> {
+    // No-op for mailbox client, we don't need to connect anything
+    return;
+  }
+
+  async close(): Promise<void> {
+    // No-op for mailbox client, we don't need to close anything
+    return;
   }
 
   sendRequest(request: any) {
@@ -45,7 +56,7 @@ export class MailboxMCPClient {
     throw new Error("Timeout waiting for response");
   }
 
-  listTools() {
+  async listTools(): Promise<any> {
     const id = ++this.requestId;
     const request = {
       jsonrpc: "2.0",
@@ -57,7 +68,7 @@ export class MailboxMCPClient {
     return this.waitForResponse(id);
   }
 
-  callTool(name: string, args: any = {}) {
+  async callTool(name: string, args: any = {}): Promise<any> {
     const id = ++this.requestId;
     const request = {
       jsonrpc: "2.0",
